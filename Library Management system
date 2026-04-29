@@ -1,0 +1,108 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Book {
+public:
+    int id;
+    string title;
+    string author;
+    bool issued;
+
+    Book(int i,string t,string a) {
+        id=i;
+        title=t;
+        author=a;
+        issued=false;
+    }
+};
+
+vector<Book>library;
+
+void addBook() {
+    int id;
+    string title,author;
+    cout<<"Enter Book ID: ";
+    cin>>id;
+    cin.ignore();
+    cout<<"Enter Title: ";
+    getline(cin,title);
+    cout<<"Enter Author: ";
+    getline(cin,author);
+
+    library.push_back(Book(id,title,author));
+    cout<<"Book added successfully!\n";
+}
+
+void showBooks() {
+    for(auto &b:library) {
+        cout<<"\nID: "<<b.id<<"\nTitle: "<< b.title<<"\nAuthor: "<<b.author<<"\nStatus: "<<(b.issued ?"Issued" : "Available")<<"\n";
+    }
+}
+
+void issueBook() {
+    int id;
+    cout<<"Enter Book ID to issue: ";
+    cin>>id;
+
+    for(auto &b:library) {
+        if(b.id==id && !b.issued) {
+            b.issued=true;
+            cout<<"Book issued successfully!\n";
+            return;
+        }
+    }
+    cout<<"Book not available!\n";
+}
+
+void returnBook() {
+    int id;
+    cout<<"Enter Book ID to return: ";
+    cin>>id;
+
+    for(auto &b:library) {
+        if(b.id==id && b.issued) {
+            b.issued=false;
+            cout<<"Book returned successfully!\n";
+            return;
+        }
+    }
+    cout<<"Invalid Book ID!\n";
+}
+
+void searchBook() {
+    string key;
+    cin.ignore();
+    cout<<"Enter title or author: ";
+    getline(cin,key);
+
+    for(auto &b:library) {
+        if(b.title.find(key)!=string::npos|| b.author.find(key)!=string::npos) {
+            cout<<"\nFound:\n";
+            cout<<"ID: "<<b.id<<"\nTitle: "<<b.title<<"\nAuthor: "<<b.author<<"\n";
+        }
+    }
+}
+
+int main() {
+    int choice;
+
+    do {
+        cout<<"\n--- Library Menu ---\n";
+        cout<<"1. Add Book\n2. Show Books\n3. Issue Book\n4. Return Book\n5. Search Book\n6. Exit\n";
+        cout<<"Enter choice: ";
+        cin>>choice;
+
+        switch (choice) {
+            case 1: addBook(); break;
+            case 2: showBooks(); break;
+            case 3: issueBook(); break;
+            case 4: returnBook(); break;
+            case 5: searchBook(); break;
+            case 6: cout<<"Exiting...\n"; break;
+            default: cout<<"Invalid choice!\n";
+        }
+    } while(choice!=6);
+
+    return 0;
+}
