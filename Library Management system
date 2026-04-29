@@ -18,7 +18,7 @@ public:
         title=t;
         author=a;
         issued=iss;
-    }
+    } 
 };
 
 vector<Book>library;
